@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -20,8 +22,7 @@ namespace ConcertGo.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+        public ApplicationDbContext() : base("DefaultConnection", false)
         {
         }
 
@@ -29,5 +30,37 @@ namespace ConcertGo.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Concert> Concerts { get; set; }
+    }
+
+    public class Concert
+    {
+        public Guid Id { get; set; }
+
+        public string Name { get; set; }
+
+        public virtual ICollection<Artist> Artists { get; set; }
+
+        public ICollection<Media> Media { get; set; }
+    }
+
+    public class Artist
+    {
+        public Guid Id { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    public class Media
+    {
+        public Guid Id { get; set; }
+
+        public MediaType Type { get; set; }
+    }
+
+    public enum MediaType
+    {
+        Photo, Video
     }
 }
