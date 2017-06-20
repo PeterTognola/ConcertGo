@@ -61,6 +61,10 @@ namespace ConcertGo.Models
         public Guid Id { get; set; }
 
         public MediaType Type { get; set; }
+
+        public string Location { get; set; } // location + name = file path.
+
+        public string Name { get; set; } // todo seperate location and name.
     }
 
     public enum MediaType

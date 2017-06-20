@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace ConcertGo.ViewModels
@@ -21,5 +22,14 @@ namespace ConcertGo.ViewModels
 
         [DisplayName("Concert Name")]
         public string ConcertName { get; set; }
+    }
+
+    public class ArtistDetailViewModel
+    {
+        public Guid ArtistId { get; set; }
+
+        public string ArtistName { get; set; }
+
+        public string NewConcertName { get; set; }
     }
 }
