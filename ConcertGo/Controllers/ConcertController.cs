@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ConcertGo.Models;
+using ConcertGo.ViewModels;
 
 namespace ConcertGo.Controllers
 {
@@ -28,7 +29,19 @@ namespace ConcertGo.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Concert concert = await db.Concerts.FindAsync(id);
+
+            var concert = await db.Concerts.FindAsync(id).ContinueWith(x =>
+            {
+                return new ConcertDetailViewModel
+                {
+                    Artists = x.Result.Artists.Select(y => new ArtistViewModel
+                    {
+                        Name = y.Name
+                    }),
+                    ConcertName = x.Result.Name
+                };
+            });
+
             if (concert == null)
             {
                 return HttpNotFound();

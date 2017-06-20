@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ConcertGo.Models;
+using ConcertGo.ViewModels;
 
 namespace ConcertGo.Controllers
 {
@@ -47,17 +49,30 @@ namespace ConcertGo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name")] Artist artist)
+        public async Task<ActionResult> Create(CreateArtistViewModel artist)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(artist);
+
+            using (var context = new ApplicationDbContext())
             {
-                artist.Id = Guid.NewGuid();
-                db.Artists.Add(artist);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                context.Artists.Add(new Artist
+                {
+                    Id = Guid.NewGuid(),
+                    Name = artist.ArtistName,
+                    Concerts = new List<Concert>
+                    {
+                        new Concert
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = artist.ConcertName
+                        }
+                    }
+                });
+
+                await context.SaveChangesAsync();
             }
 
-            return View(artist);
+            return RedirectToAction("Index");
         }
 
         // GET: Artists/Edit/5

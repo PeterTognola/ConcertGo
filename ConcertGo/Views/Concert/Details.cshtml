@@ -1,4 +1,4 @@
-﻿@model ConcertGo.Models.Concert
+﻿@model ConcertGo.ViewModels.ConcertDetailViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -11,16 +11,27 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.ConcertName)
         </dt>
-
+        
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.ConcertName)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Artists)
+        </dt>
+        
+        <dd>
+            @foreach (var artist in Model.Artists)
+            {
+                 @artist.Name /* todo display template */
+            }
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
     @Html.ActionLink("Back to List", "Index")
 </p>
