@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using ConcertGo.Models;
+using ConcertGo.ViewModels;
 
 namespace ConcertGo.Controllers
 {
@@ -25,10 +21,15 @@ namespace ConcertGo.Controllers
             return null; // todo show media details.
         }
 
-        // GET: Media/Create
-        public ActionResult Create()
+        // GET: Media/Create/5
+        public ActionResult Create(Guid? concertId)
         {
-            return View();
+            if (!concertId.HasValue) return null; // todo error.
+
+            return View(new CreateMediaViewModel
+            {
+                ConcertId = concertId.Value
+            });
         }
 
         // POST: Media/Create
@@ -36,13 +37,25 @@ namespace ConcertGo.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Type")] Media media)
+        public async Task<ActionResult> Create(CreateMediaViewModel media) // todo finish off.
         {
             if (!ModelState.IsValid) return View(media);
 
             using (var context = new ApplicationDbContext())
             {
-                
+                var concert = await context.Concerts.FindAsync(media.ConcertId);
+
+                if (concert == null) return null; // todo error.
+
+                if (concert.Media == null) concert.Media = new List<Media>();
+
+                concert.Media.Add(new Media
+                {
+                    Id = Guid.NewGuid(),
+                    Name = media.Name
+                });
+
+                await context.SaveChangesAsync();
             }
 
             return RedirectToAction("Index");
