@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using RestSharp;
+using TM.Discovery;
+using TM.Discovery.V2;
+using TM.Discovery.V2.Models;
 
 namespace ConcertGo.Controllers
 {
@@ -26,5 +27,29 @@ namespace ConcertGo.Controllers
 
             return View();
         }
+
+        public async Task<string> TicketMasterTest()
+        {
+            var config = new TicketMasterConfig("yxGeZiH33ISWvVKm9nHu2D1JKbEB2sTk", // wrong key.
+                "https://app.ticketmaster.com/discovery/");
+
+            var restClient = new RestClient(config.ApiRootUrl);
+
+            var eventsApiClient = new EventsClient(restClient, config);
+            var result = await eventsApiClient.SearchEventsAsync(new SearchEventsRequest()); // result location: result > _embedded. todo base off location.
+
+            return "";
+        }
+    }
+
+    public class TicketMasterConfig : IClientConfig {
+        public TicketMasterConfig(string consumerKey, string apiRootUrl)
+        {
+            ConsumerKey = consumerKey;
+            ApiRootUrl = apiRootUrl;
+        }
+
+        public string ConsumerKey { get; }
+        public string ApiRootUrl { get; }
     }
 }

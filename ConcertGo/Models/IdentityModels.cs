@@ -32,6 +32,8 @@ namespace ConcertGo.Models
         }
 
         public DbSet<Concert> Concerts { get; set; }
+
+        public DbSet<Artist> Artists { get; set; }
     }
 
     public class Concert
@@ -50,6 +52,8 @@ namespace ConcertGo.Models
         public Guid Id { get; set; }
 
         public string Name { get; set; }
+
+        public ICollection<Concert> Concerts { get; set; }
     }
 
     public class Media
@@ -57,6 +61,10 @@ namespace ConcertGo.Models
         public Guid Id { get; set; }
 
         public MediaType Type { get; set; }
+
+        public string Location { get; set; } // location + name = file path.
+
+        public string Name { get; set; } // todo seperate location and name.
     }
 
     public enum MediaType

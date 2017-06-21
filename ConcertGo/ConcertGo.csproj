@@ -77,6 +77,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -129,6 +132,9 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="TM.Discovery, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TM.Discovery.1.0.0.1\lib\net452\TM.Discovery.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -196,8 +202,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ArtistsController.cs" />
+    <Compile Include="Controllers\ConcertController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -205,12 +214,23 @@
     <Compile Include="Migrations\201706201851212_InitialMigration.Designer.cs">
       <DependentUpon>201706201851212_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706201903292_ArtistConcertRelationshipMigration.cs" />
+    <Compile Include="Migrations\201706201903292_ArtistConcertRelationshipMigration.Designer.cs">
+      <DependentUpon>201706201903292_ArtistConcertRelationshipMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706212041579_MediaUpdate.cs" />
+    <Compile Include="Migrations\201706212041579_MediaUpdate.Designer.cs">
+      <DependentUpon>201706212041579_MediaUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ArtistViewModels.cs" />
+    <Compile Include="ViewModels\ConcertViewModels.cs" />
+    <Compile Include="ViewModels\MediaViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -270,6 +290,21 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Concert\Create.cshtml" />
+    <Content Include="Views\Concert\Delete.cshtml" />
+    <Content Include="Views\Concert\Details.cshtml" />
+    <Content Include="Views\Concert\Edit.cshtml" />
+    <Content Include="Views\Concert\Index.cshtml" />
+    <Content Include="Views\Artists\Create.cshtml" />
+    <Content Include="Views\Artists\Delete.cshtml" />
+    <Content Include="Views\Artists\Details.cshtml" />
+    <Content Include="Views\Artists\Edit.cshtml" />
+    <Content Include="Views\Artists\Index.cshtml" />
+    <Content Include="Views\Media\Create.cshtml" />
+    <Content Include="Views\Media\Delete.cshtml" />
+    <Content Include="Views\Media\Details.cshtml" />
+    <Content Include="Views\Media\Edit.cshtml" />
+    <Content Include="Views\Media\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -285,6 +320,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201706201851212_InitialMigration.resx">
       <DependentUpon>201706201851212_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706201903292_ArtistConcertRelationshipMigration.resx">
+      <DependentUpon>201706201903292_ArtistConcertRelationshipMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706212041579_MediaUpdate.resx">
+      <DependentUpon>201706212041579_MediaUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

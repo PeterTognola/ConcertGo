@@ -1,0 +1,50 @@
+﻿@model ConcertGo.ViewModels.ConcertDetailViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Concert</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Artists)
+        </dt>
+        
+        <dd>
+            @foreach (var artist in Model.Artists)
+            {
+                @artist.Name /* todo display template */
+            }
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Media)
+        </dt>
+
+        <dd>
+            @foreach (var media in Model.Media)
+            {
+                @media.Name /* todo display template */
+            }
+            
+            @Html.ActionLink("Add Media", "Create", "Media", new {concertId = Model.Id}, null)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>
