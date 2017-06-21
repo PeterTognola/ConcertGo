@@ -64,7 +64,8 @@ namespace ConcertGo.Controllers
                         new Concert
                         {
                             Id = Guid.NewGuid(),
-                            Name = artist.ConcertName
+                            Name = artist.ConcertName,
+                            Media = new List<Media>()
                         }
                     }
                 });

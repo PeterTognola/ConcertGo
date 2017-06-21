@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace ConcertGo.ViewModels
@@ -9,10 +10,15 @@ namespace ConcertGo.ViewModels
 
     public class ConcertDetailViewModel
     {
+        public Guid Id { get; set; }
+
         [DisplayName("Concert Name")]
-        public string ConcertName { get; set; }
+        public string Name { get; set; }
 
         [DisplayName("Artists")]
         public IEnumerable<ArtistViewModel> Artists { get; set; }
+
+        [DisplayName("Media")]
+        public IEnumerable<MediaViewModel> Media { get; set; }
     }
 }

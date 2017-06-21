@@ -218,6 +218,10 @@
     <Compile Include="Migrations\201706201903292_ArtistConcertRelationshipMigration.Designer.cs">
       <DependentUpon>201706201903292_ArtistConcertRelationshipMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706212041579_MediaUpdate.cs" />
+    <Compile Include="Migrations\201706212041579_MediaUpdate.Designer.cs">
+      <DependentUpon>201706212041579_MediaUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -319,6 +323,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706201903292_ArtistConcertRelationshipMigration.resx">
       <DependentUpon>201706201903292_ArtistConcertRelationshipMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706212041579_MediaUpdate.resx">
+      <DependentUpon>201706212041579_MediaUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
