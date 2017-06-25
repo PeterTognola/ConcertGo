@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ConcertGo.ViewModels
@@ -20,6 +21,13 @@ namespace ConcertGo.ViewModels
         [Required]
         public string Comment { get; set; }
 
-        public string FileLocation { get; set; } // todo file type.
+        public IEnumerable<CreateMediaFileViewModel> Files { get; set; } // todo template...
+    }
+
+    public class CreateMediaFileViewModel
+    {
+        public Guid Id { get; set; }
+
+        public string Location { get; set; }
     }
 }
