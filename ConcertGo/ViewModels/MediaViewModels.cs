@@ -9,7 +9,7 @@ namespace ConcertGo.ViewModels
 
     public class MediaViewModel
     {
-        public string Name { get; set; }
+        public string Comment { get; set; }
     }
 
     public class CreateMediaViewModel
@@ -18,10 +18,7 @@ namespace ConcertGo.ViewModels
         public Guid ConcertId { get; set; }
 
         [Required]
-        public string Name { get; set; }
-
-        [Required]
-        public string Description { get; set; }
+        public string Comment { get; set; }
 
         public string FileLocation { get; set; } // todo file type.
     }

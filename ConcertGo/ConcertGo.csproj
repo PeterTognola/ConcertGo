@@ -222,6 +222,10 @@
     <Compile Include="Migrations\201706212041579_MediaUpdate.Designer.cs">
       <DependentUpon>201706212041579_MediaUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706251321445_MediaFilesMigration.cs" />
+    <Compile Include="Migrations\201706251321445_MediaFilesMigration.Designer.cs">
+      <DependentUpon>201706251321445_MediaFilesMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -326,6 +330,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706212041579_MediaUpdate.resx">
       <DependentUpon>201706212041579_MediaUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706251321445_MediaFilesMigration.resx">
+      <DependentUpon>201706251321445_MediaFilesMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

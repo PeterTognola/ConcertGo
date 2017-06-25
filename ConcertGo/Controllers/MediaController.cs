@@ -52,7 +52,7 @@ namespace ConcertGo.Controllers
                 concert.Media.Add(new Media
                 {
                     Id = Guid.NewGuid(),
-                    Name = media.Name
+                    Comment = media.Comment
                 });
 
                 await context.SaveChangesAsync();
@@ -62,7 +62,7 @@ namespace ConcertGo.Controllers
         }
 
         public JsonResult FileHandler() // return file name for media creation.
-        { // do like instagram does, upload file while user completes form.
+        { // do like instagram does, upload file while user completes form. Get meta and store with media.
             return null; // todo handle file.
         }
     }
