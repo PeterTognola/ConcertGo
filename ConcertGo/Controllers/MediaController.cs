@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using ConcertGo.Models;
 using ConcertGo.ViewModels;
@@ -63,6 +65,17 @@ namespace ConcertGo.Controllers
 
         public JsonResult FileHandler() // return file name for media creation.
         { // do like instagram does, upload file while user completes form. Get meta and store with media.
+            foreach (string file in Request.Files)
+            {
+                HttpPostedFile hpf = Request.Files[file] as HttpPostedFile;
+
+                if (hpf != null && hpf.ContentLength == 0) continue;
+                if (hpf == null) continue;
+
+                var savedFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.GetFileName(hpf.FileName));
+
+                hpf.SaveAs(savedFileName);
+            }
             return null; // todo handle file.
         }
     }
