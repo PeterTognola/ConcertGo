@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -63,20 +64,38 @@ namespace ConcertGo.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
         public JsonResult FileHandler() // return file name for media creation.
         { // do like instagram does, upload file while user completes form. Get meta and store with media.
-            foreach (string file in Request.Files)
+            try
             {
-                HttpPostedFile hpf = Request.Files[file] as HttpPostedFile;
+                foreach (string file in Request.Files)
+                {
+                    var fileContent = Request.Files[file];
 
-                if (hpf != null && hpf.ContentLength == 0) continue;
-                if (hpf == null) continue;
+                    if (fileContent == null || fileContent.ContentLength <= 0) continue;
 
-                var savedFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.GetFileName(hpf.FileName));
+                    // get a stream
+                    var stream = fileContent.InputStream;
+                    // and optionally write the file to disk
+                    var fileName = Path.GetFileName(file);
+                    if (fileName == null) continue;
 
-                hpf.SaveAs(savedFileName);
+                    var path = Path.Combine(Server.MapPath("~/App_Data/Images"), fileName);
+
+                    using (var fileStream = System.IO.File.Create(path))
+                    {
+                        stream.CopyTo(fileStream);
+                    }
+                }
             }
-            return null; // todo handle file.
+            catch (Exception)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Upload failed");
+            }
+
+            return Json("File uploaded successfully");
         }
     }
 }
