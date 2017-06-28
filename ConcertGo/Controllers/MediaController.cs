@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using ConcertGo.Models;
 using ConcertGo.ViewModels;
+using WebGrease.Css.Extensions;
+using File = ConcertGo.Models.File;
 
 namespace ConcertGo.Controllers
 {
@@ -49,11 +54,25 @@ namespace ConcertGo.Controllers
 
                 if (concert.Media == null) concert.Media = new List<Media>();
 
-                concert.Media.Add(new Media
+                var newMedia = new Media
                 {
                     Id = Guid.NewGuid(),
-                    Name = media.Name
-                });
+                    Comment = media.Comment,
+                    File = new List<File>()
+                };
+
+                foreach (var file in media.Files.Split(','))
+                {
+                    if (file == "") continue;
+
+                    var currentFile = await context.Files.FindAsync(new Guid(file));
+                    if (currentFile == null) continue;
+
+                    currentFile.HasMedia = true;
+                    newMedia.File.Add(currentFile);
+                }
+
+                concert.Media.Add(newMedia);
 
                 await context.SaveChangesAsync();
             }
@@ -61,9 +80,52 @@ namespace ConcertGo.Controllers
             return RedirectToAction("Index");
         }
 
-        public JsonResult FileHandler() // return file name for media creation.
-        { // do like instagram does, upload file while user completes form.
-            return null; // todo handle file.
+        [HttpPost]
+        public async Task<JsonResult> FileHandler() // return file name for media creation.
+        { // do like instagram does, upload file while user completes form. Get meta and store with media.
+            var fileId = Guid.NewGuid();
+            try
+            {
+                foreach (string file in Request.Files)
+                {
+                    var fileContent = Request.Files[file];
+
+                    if (fileContent == null || fileContent.ContentLength <= 0) continue;
+
+                    var contentType = fileContent.ContentType;
+
+                    var stream = fileContent.InputStream;
+
+                    var fileName = fileId + "." + fileContent.FileName.Split('.')[fileContent.FileName.Split('.').Length - 1];
+
+                    var path = Path.Combine(Server.MapPath("~/App_Data/Concert_Content/"), fileName);
+
+                    using (var fileStream = System.IO.File.Create(path))
+                    {
+                        stream.CopyTo(fileStream);
+                    }
+
+                    using (var context = new ApplicationDbContext())
+                    {
+                        context.Files.Add(new Models.File
+                        {
+                            Id = fileId,
+                            Type = FileType.Photo, // todo
+                            UploadDateTime = DateTime.UtcNow,
+                            Location = path
+                        });
+
+                        await context.SaveChangesAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json("Error");
+            }
+
+            return Json(fileId);
         }
     }
 }

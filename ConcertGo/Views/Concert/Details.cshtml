@@ -36,7 +36,7 @@
         <dd>
             @foreach (var media in Model.Media)
             {
-                @media.Name /* todo display template */
+                @media.Comment /* todo display template */
             }
             
             @Html.ActionLink("Add Media", "Create", "Media", new {concertId = Model.Id}, null)
