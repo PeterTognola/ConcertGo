@@ -65,8 +65,9 @@ namespace ConcertGo.Controllers
         }
 
         [HttpPost]
-        public JsonResult FileHandler() // return file name for media creation.
+        public async Task<JsonResult> FileHandler(Guid concertId) // return file name for media creation.
         { // do like instagram does, upload file while user completes form. Get meta and store with media.
+            var fileId = Guid.NewGuid();
             try
             {
                 foreach (string file in Request.Files)
@@ -75,27 +76,39 @@ namespace ConcertGo.Controllers
 
                     if (fileContent == null || fileContent.ContentLength <= 0) continue;
 
-                    // get a stream
-                    var stream = fileContent.InputStream;
-                    // and optionally write the file to disk
-                    var fileName = Path.GetFileName(file);
-                    if (fileName == null) continue;
+                    var contentType = fileContent.ContentType;
 
-                    var path = Path.Combine(Server.MapPath("~/App_Data/Images"), fileName);
+                    var stream = fileContent.InputStream;
+
+                    var fileName = fileId + fileContent.FileName.Split('.')[fileContent.FileName.Split('.').Length - 1];
+
+                    var path = Path.Combine(Server.MapPath("~/App_Data/Concert_Content"), fileName);
 
                     using (var fileStream = System.IO.File.Create(path))
                     {
                         stream.CopyTo(fileStream);
                     }
+
+                    using (var context = new ApplicationDbContext())
+                    {
+                        context.Files.Add(new Models.File
+                        {
+                            Id = fileId,
+                            Type = FileType.Photo, // todo
+                            UploadDateTime = DateTime.UtcNow
+                        });
+
+                        await context.SaveChangesAsync();
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Upload failed");
+                return Json("Upload failed :(");
             }
 
-            return Json("File uploaded successfully");
+            return Json(fileId);
         }
     }
 }

@@ -34,6 +34,8 @@ namespace ConcertGo.Models
         public DbSet<Concert> Concerts { get; set; }
 
         public DbSet<Artist> Artists { get; set; }
+
+        public DbSet<File> Files { get; set; }
     }
 
     public class Concert
@@ -72,6 +74,10 @@ namespace ConcertGo.Models
         public FileType Type { get; set; }
 
         public string Location { get; set; }
+
+        public DateTime UploadDateTime { get; set; }
+
+        public bool HasMedia { get; set; }
     }
 
     public enum FileType
