@@ -32,6 +32,8 @@
             </div>
         </div>*@
         
+        @Html.HiddenFor(model => model.Files)
+        
         <input type="file" name="UploadFile" id="txtUploadFile" /> <!-- todo we want multiple!!! -->
         
         @Html.HiddenFor(model => model.ConcertId)
@@ -73,14 +75,25 @@
                             contentType: false,
                             processData: false,
                             data: data,
-                            success: function(result) {
+                            success: function (result) {
+                                if (result !== "error") {
+                                    $("#Files")[0].value += result + ",";
+                                } else {
+                                    console.log("There was an error...");
+                                }
+
                                 console.log(result);
                             },
                             error: function(xhr, status, p3, p4) {
                                 var err = "Error " + " " + status + " " + p3 + " " + p4;
-                                if (xhr.responseText && xhr.responseText[0] == "{")
-                                    err = JSON.parse(xhr.responseText).Message;
-                                console.log(err);
+                                if (xhr.responseText && xhr.responseText[0] === "{") {
+                                    var fileId = JSON.parse(xhr.responseText).Message.toLowerCase();
+                                    if (json !== "error") {
+                                        $("#Files")[0].value += fileId + ",";
+                                    } else {
+                                        console.log("There was an error...");
+                                    }
+                                }
                             }
                         });
                     } else {

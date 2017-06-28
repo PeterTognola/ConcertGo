@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using ConcertGo.Models;
 using ConcertGo.ViewModels;
+using WebGrease.Css.Extensions;
+using File = ConcertGo.Models.File;
 
 namespace ConcertGo.Controllers
 {
@@ -52,11 +54,25 @@ namespace ConcertGo.Controllers
 
                 if (concert.Media == null) concert.Media = new List<Media>();
 
-                concert.Media.Add(new Media
+                var newMedia = new Media
                 {
                     Id = Guid.NewGuid(),
-                    Comment = media.Comment
-                });
+                    Comment = media.Comment,
+                    File = new List<File>()
+                };
+
+                foreach (var file in media.Files.Split(','))
+                {
+                    if (file == "") continue;
+
+                    var currentFile = await context.Files.FindAsync(new Guid(file));
+                    if (currentFile == null) continue;
+
+                    currentFile.HasMedia = true;
+                    newMedia.File.Add(currentFile);
+                }
+
+                concert.Media.Add(newMedia);
 
                 await context.SaveChangesAsync();
             }
@@ -65,7 +81,7 @@ namespace ConcertGo.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> FileHandler(Guid concertId) // return file name for media creation.
+        public async Task<JsonResult> FileHandler() // return file name for media creation.
         { // do like instagram does, upload file while user completes form. Get meta and store with media.
             var fileId = Guid.NewGuid();
             try
@@ -80,9 +96,9 @@ namespace ConcertGo.Controllers
 
                     var stream = fileContent.InputStream;
 
-                    var fileName = fileId + fileContent.FileName.Split('.')[fileContent.FileName.Split('.').Length - 1];
+                    var fileName = fileId + "." + fileContent.FileName.Split('.')[fileContent.FileName.Split('.').Length - 1];
 
-                    var path = Path.Combine(Server.MapPath("~/App_Data/Concert_Content"), fileName);
+                    var path = Path.Combine(Server.MapPath("~/App_Data/Concert_Content/"), fileName);
 
                     using (var fileStream = System.IO.File.Create(path))
                     {
@@ -95,7 +111,8 @@ namespace ConcertGo.Controllers
                         {
                             Id = fileId,
                             Type = FileType.Photo, // todo
-                            UploadDateTime = DateTime.UtcNow
+                            UploadDateTime = DateTime.UtcNow,
+                            Location = path
                         });
 
                         await context.SaveChangesAsync();
@@ -105,7 +122,7 @@ namespace ConcertGo.Controllers
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Upload failed :(");
+                return Json("Error");
             }
 
             return Json(fileId);
