@@ -230,6 +230,22 @@
     <Compile Include="Migrations\201706282013257_FileHandleMigration.Designer.cs">
       <DependentUpon>201706282013257_FileHandleMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706292027517_UrlFileMigration.cs" />
+    <Compile Include="Migrations\201706292027517_UrlFileMigration.Designer.cs">
+      <DependentUpon>201706292027517_UrlFileMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706292048107_ForeignKeyMediaMigration.cs" />
+    <Compile Include="Migrations\201706292048107_ForeignKeyMediaMigration.Designer.cs">
+      <DependentUpon>201706292048107_ForeignKeyMediaMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706292111327_FileFixMigration.cs" />
+    <Compile Include="Migrations\201706292111327_FileFixMigration.Designer.cs">
+      <DependentUpon>201706292111327_FileFixMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706292118301_FileMediaForeignKey.cs" />
+    <Compile Include="Migrations\201706292118301_FileMediaForeignKey.Designer.cs">
+      <DependentUpon>201706292118301_FileMediaForeignKey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -340,6 +356,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706282013257_FileHandleMigration.resx">
       <DependentUpon>201706282013257_FileHandleMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706292027517_UrlFileMigration.resx">
+      <DependentUpon>201706292027517_UrlFileMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706292048107_ForeignKeyMediaMigration.resx">
+      <DependentUpon>201706292048107_ForeignKeyMediaMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706292111327_FileFixMigration.resx">
+      <DependentUpon>201706292111327_FileFixMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706292118301_FileMediaForeignKey.resx">
+      <DependentUpon>201706292118301_FileMediaForeignKey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

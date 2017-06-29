@@ -42,7 +42,12 @@ namespace ConcertGo.Controllers
                     Id = x.Result.Id,
                     Media = x.Result.Media.Select(y => new MediaViewModel
                     {
-                        Comment = y.Comment
+                        Comment = y.Comment,
+                        Files = y.Files.Select(z => new FileViewModel
+                        {
+                            Id = z.Id,
+                            Url = z.Url
+                        })
                     })
                 };
             });

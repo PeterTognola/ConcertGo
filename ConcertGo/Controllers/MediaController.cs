@@ -58,7 +58,7 @@ namespace ConcertGo.Controllers
                 {
                     Id = Guid.NewGuid(),
                     Comment = media.Comment,
-                    File = new List<File>()
+                    Files = new List<File>()
                 };
 
                 foreach (var file in media.Files.Split(','))
@@ -69,7 +69,7 @@ namespace ConcertGo.Controllers
                     if (currentFile == null) continue;
 
                     currentFile.HasMedia = true;
-                    newMedia.File.Add(currentFile);
+                    newMedia.Files.Add();
                 }
 
                 concert.Media.Add(newMedia);
@@ -107,12 +107,13 @@ namespace ConcertGo.Controllers
 
                     using (var context = new ApplicationDbContext())
                     {
-                        context.Files.Add(new Models.File
+                        context.Files.Add(new File
                         {
                             Id = fileId,
                             Type = FileType.Photo, // todo
                             UploadDateTime = DateTime.UtcNow,
-                            Location = path
+                            Location = path,
+                            Url = $"~/App_Data/Concert_Content/{fileName}"
                         });
 
                         await context.SaveChangesAsync();
