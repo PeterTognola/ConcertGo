@@ -75,11 +75,6 @@ namespace ConcertGo.Models
         [Key]
         public Guid Id { get; set; }
 
-        [ForeignKey("Media")]
-        public Guid MediaId { get; set; }
-
-        public virtual Media Media { get; set; }
-
         public FileType Type { get; set; }
 
         public string Location { get; set; }

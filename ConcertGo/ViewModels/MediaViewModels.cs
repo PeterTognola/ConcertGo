@@ -35,4 +35,9 @@ namespace ConcertGo.ViewModels
 
         public string Url { get; set; }
     }
+
+    public class FileHandlerViewModel
+    {
+        public string Date { get; set; }
+    }
 }

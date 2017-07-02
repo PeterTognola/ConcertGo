@@ -65,9 +65,9 @@
                 if (files.length > 0) {
                     if (window.FormData !== undefined) {
                         var data = new FormData();
-                        for (var x = 0; x < files.length; x++) {
-                            data.append("file" + x, files[x]);
-                        }
+
+                        data.append("File", files[0]);
+                        data.append("Date", files[0].lastModified);
 
                         $.ajax({
                             type: "POST",

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -68,8 +69,10 @@ namespace ConcertGo.Controllers
                     var currentFile = await context.Files.FindAsync(new Guid(file));
                     if (currentFile == null) continue;
 
+                    
                     currentFile.HasMedia = true;
-                    newMedia.Files.Add();
+                    context.Files.Attach(currentFile);
+                    newMedia.Files.Add(currentFile);
                 }
 
                 concert.Media.Add(newMedia);
@@ -81,7 +84,7 @@ namespace ConcertGo.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> FileHandler() // return file name for media creation.
+        public async Task<JsonResult> FileHandler(FileHandlerViewModel fileViewModel) // return file name for media creation.
         { // do like instagram does, upload file while user completes form. Get meta and store with media.
             var fileId = Guid.NewGuid();
             try
@@ -93,6 +96,8 @@ namespace ConcertGo.Controllers
                     if (fileContent == null || fileContent.ContentLength <= 0) continue;
 
                     var contentType = fileContent.ContentType;
+
+                    //var dateTaken = DateTimeOffset.FromUnixTimeMilliseconds(Convert.ToInt64(fileViewModel.Date));
 
                     var stream = fileContent.InputStream;
 
@@ -113,7 +118,7 @@ namespace ConcertGo.Controllers
                             Type = FileType.Photo, // todo
                             UploadDateTime = DateTime.UtcNow,
                             Location = path,
-                            Url = $"~/App_Data/Concert_Content/{fileName}"
+                            Url = $"/App_Data/Concert_Content/{fileName}"
                         });
 
                         await context.SaveChangesAsync();
