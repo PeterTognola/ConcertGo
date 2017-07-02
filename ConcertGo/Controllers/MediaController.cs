@@ -97,7 +97,7 @@ namespace ConcertGo.Controllers
 
                     var contentType = fileContent.ContentType;
 
-                    //var dateTaken = DateTimeOffset.FromUnixTimeMilliseconds(Convert.ToInt64(fileViewModel.Date));
+                    var dateTaken = DateTimeOffset.FromUnixTimeMilliseconds(Convert.ToInt64(fileViewModel.Date));
 
                     var stream = fileContent.InputStream;
 
