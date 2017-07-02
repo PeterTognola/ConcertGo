@@ -30,13 +30,19 @@ namespace ConcertGo.Controllers
 
         public async Task<string> TicketMasterTest()
         {
-            var config = new TicketMasterConfig("yxGeZiH33ISWvVKm9nHu2D1JKbEB2sTk", // wrong key.
+            var config = new TicketMasterConfig(System.IO.File.ReadAllText(Server.MapPath("~/TicketMasterKey.txt")), // wrong key.
                 "https://app.ticketmaster.com/discovery/");
 
             var restClient = new RestClient(config.ApiRootUrl);
 
             var eventsApiClient = new EventsClient(restClient, config);
-            var result = await eventsApiClient.SearchEventsAsync(new SearchEventsRequest()); // result location: result > _embedded. todo base off location.
+            var result = await eventsApiClient.SearchEventsAsync(new SearchEventsRequest
+            {
+                QueryParameters =
+                {
+                    //geoPoint create geoHash and pass as string.
+                }
+            }); // result location: result > _embedded. todo base off location.
 
             return "";
         }

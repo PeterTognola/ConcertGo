@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -60,20 +62,24 @@ namespace ConcertGo.Models
 
     public class Media
     {
+        [Key]
         public Guid Id { get; set; }
 
         public string Comment { get; set; }
 
-        public ICollection<File> File { get; set; }
+        public ICollection<File> Files { get; set; }
     }
 
     public class File
     {
+        [Key]
         public Guid Id { get; set; }
 
         public FileType Type { get; set; }
 
         public string Location { get; set; }
+
+        public string Url { get; set; }
 
         public DateTime UploadDateTime { get; set; }
 

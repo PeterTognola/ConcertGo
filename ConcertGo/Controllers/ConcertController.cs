@@ -30,7 +30,7 @@ namespace ConcertGo.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var concert = await db.Concerts.Include(c => c.Media).FirstAsync(x=> x.Id == id).ContinueWith(x => // todo will return null, fix it.
+            var concert = await db.Concerts.Include(c => c.Media.Select(m => m.Files)).FirstAsync(x=> x.Id == id).ContinueWith(x => // todo will return null, fix it.
             {
                 return new ConcertDetailViewModel
                 {
@@ -42,7 +42,12 @@ namespace ConcertGo.Controllers
                     Id = x.Result.Id,
                     Media = x.Result.Media.Select(y => new MediaViewModel
                     {
-                        Comment = y.Comment
+                        Comment = y.Comment,
+                        Files = y.Files.Select(z => new FileViewModel
+                        {
+                            Id = z.Id,
+                            Url = z.Url
+                        })
                     })
                 };
             });

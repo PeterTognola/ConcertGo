@@ -37,6 +37,11 @@
             @foreach (var media in Model.Media)
             {
                 @media.Comment /* todo display template */
+
+                foreach (var file in media.Files)
+                {
+                    <img src="@file.Url" />
+                }
             }
             
             @Html.ActionLink("Add Media", "Create", "Media", new {concertId = Model.Id}, null)
