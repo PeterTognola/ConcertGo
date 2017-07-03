@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace ConcertGo
 {
@@ -20,6 +19,7 @@ namespace ConcertGo
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                      "~/Scripts/geohash.js",
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 

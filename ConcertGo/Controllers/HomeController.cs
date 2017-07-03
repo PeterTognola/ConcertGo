@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using RestSharp;
 using TM.Discovery;
@@ -28,7 +29,7 @@ namespace ConcertGo.Controllers
             return View();
         }
 
-        public async Task<string> TicketMasterTest()
+        public async Task<string> TicketMasterTest(TicketViewModel ticketViewModel) // todo refactor
         {
             var config = new TicketMasterConfig(System.IO.File.ReadAllText(Server.MapPath("~/TicketMasterKey.txt")), // wrong key.
                 "https://app.ticketmaster.com/discovery/");
@@ -36,16 +37,28 @@ namespace ConcertGo.Controllers
             var restClient = new RestClient(config.ApiRootUrl);
 
             var eventsApiClient = new EventsClient(restClient, config);
-            var result = await eventsApiClient.SearchEventsAsync(new SearchEventsRequest
-            {
-                QueryParameters =
-                {
-                    //geoPoint create geoHash and pass as string.
-                }
-            }); // result location: result > _embedded. todo base off location.
+            
+            var search = new SearchEventsRequest();
+
+            search.AddQueryParameter(new KeyValuePair<SearchEventsQueryParameters, string>(SearchEventsQueryParameters.latlong, $"{ticketViewModel.Lat},{ticketViewModel.Long}")); // todo to geo hash.
+
+            //search.AddQueryParameter(new KeyValuePair<SearchEventsQueryParameters, string>(TM.Discovery.V2.Models.SearchEventsQueryParameters.geoPoint, $"{ticketViewModel.Lat},{ticketViewModel.Long}")); // todo to geo hash.
+
+            var a = new SearchVenuesRequest();
+
+            var result = await eventsApiClient.SearchEventsAsync(search); // result location: result > _embedded. todo base off location.
 
             return "";
         }
+    }
+
+    public class TicketViewModel // todo refactor.
+    {
+        public string GeoHash { get; set; }
+
+        public string Lat { get; set; }
+
+        public string Long { get; set; }
     }
 
     public class TicketMasterConfig : IClientConfig {
