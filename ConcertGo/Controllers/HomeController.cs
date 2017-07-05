@@ -42,7 +42,7 @@ namespace ConcertGo.Controllers
 
             search.AddQueryParameter(new KeyValuePair<SearchEventsQueryParameters, string>(SearchEventsQueryParameters.latlong, $"{ticketViewModel.Lat},{ticketViewModel.Long}")); // todo to geo hash.
 
-            //search.AddQueryParameter(new KeyValuePair<SearchEventsQueryParameters, string>(TM.Discovery.V2.Models.SearchEventsQueryParameters.geoPoint, $"{ticketViewModel.Lat},{ticketViewModel.Long}")); // todo to geo hash.
+            search.AddQueryParameter(new KeyValuePair<SearchEventsQueryParameters, string>(TM.Discovery.V2.Models.SearchEventsQueryParameters.geoPoint, $"{ticketViewModel.Lat},{ticketViewModel.Long}")); // todo to geo hash.
 
             var a = new SearchVenuesRequest();
 
