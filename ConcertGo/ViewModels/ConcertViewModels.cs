@@ -4,17 +4,16 @@ using System.ComponentModel;
 
 namespace ConcertGo.ViewModels
 {
-    public class ConcertViewModels
-    {
-    }
-
-    public class ConcertDetailViewModel
+    public class ConcertViewModel
     {
         public Guid Id { get; set; }
 
         [DisplayName("Concert Name")]
         public string Name { get; set; }
+    }
 
+    public class ConcertDetailViewModel : ConcertViewModel
+    {
         [DisplayName("Artists")]
         public IEnumerable<ArtistViewModel> Artists { get; set; }
 

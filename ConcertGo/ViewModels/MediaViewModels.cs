@@ -4,10 +4,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ConcertGo.ViewModels
 {
-    public class MediaViewModels
-    {
-    }
-
     public class MediaViewModel
     {
         public string Comment { get; set; }
