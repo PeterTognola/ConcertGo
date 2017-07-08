@@ -68,6 +68,8 @@ namespace ConcertGo.Models
         public string Comment { get; set; }
 
         public ICollection<File> Files { get; set; }
+
+        public DateTime UploadDate { get; set; } = DateTime.UtcNow;
     }
 
     public class File

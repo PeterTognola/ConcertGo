@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ConcertGo.Models;
+using ConcertGo.ViewModels;
 using RestSharp;
 using TM.Discovery;
 using TM.Discovery.V2;
@@ -12,6 +15,28 @@ namespace ConcertGo.Controllers
     {
         public ActionResult Index()
         {
+            using (var context = new ApplicationDbContext())
+            {
+                var recentMedia = context.Concerts.OrderBy(x => x.Media.Select(y => y.UploadDate)).Take(30); // todo paging.
+
+                var recentMediaViewModel = new HomeViewModel
+                {
+                    RecentMedia = recentMedia.Select(x => new RecentMediaViewModel
+                    {
+                        Concert = new ConcertViewModel
+                        {
+                            Id = x.Id,
+                            Name = x.Name
+                        }
+                        //Media = x.Media.OrderBy(y => y.UploadDate).FirstOrDefault(y => new MediaViewModel
+                        //{
+                        //    Files = null,
+                        //    Comment = y.Comment
+                        //})
+                    })
+                };
+            }
+
             return View();
         }
 

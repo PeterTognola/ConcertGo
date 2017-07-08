@@ -25,6 +25,15 @@ namespace ConcertGo.ViewModels
         public string Files { get; set; } // todo template - temp fix to hook up everything.
     }
 
+    public class RecentMediaViewModel
+    {
+        public ConcertViewModel Concert { get; set; }
+
+        public MediaViewModel Media { get; set; }
+
+        public ArtistViewModel Artist { get; set; }
+    }
+
     public class FileViewModel
     {
         public Guid Id { get; set; }
