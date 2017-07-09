@@ -10,4 +10,9 @@ namespace ConcertGo.ViewModels
     {
         public IEnumerable<RecentMediaViewModel> RecentMedia { get; set; }
     }
+
+    public class RecentMediaViewModel
+    {
+        public FileViewModel File { get; set; }
+    }
 }

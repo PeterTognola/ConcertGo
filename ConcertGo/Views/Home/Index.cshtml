@@ -1,13 +1,17 @@
-﻿
+﻿@model ConcertGo.ViewModels.HomeViewModel
 @{
     ViewBag.Title = "Home Page";
 }
 
 <div class="uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l uk-text-center" uk-grid-parallax="translate:400">
-    @for (var i = 0; i < 100; i++)
+    @foreach (var file in Model.RecentMedia)
     {
         <div>
-            <div class="uk-background-muted uk-padding">Item #@i</div>
+            <div class="uk-background-muted uk-padding">
+                <img src="@file.File.Url" alt=""/>
+
+                Recent file: @file.File.Id
+            </div>
         </div>
     }
 </div>

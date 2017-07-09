@@ -17,27 +17,22 @@ namespace ConcertGo.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-                var recentMedia = context.Concerts.OrderBy(x => x.Media.Select(y => y.UploadDate)).Take(30); // todo paging.
+                var recentMedia = context.Files.OrderBy(x => x.UploadDateTime).Take(30).ToList(); // todo paging.
 
                 var recentMediaViewModel = new HomeViewModel
                 {
                     RecentMedia = recentMedia.Select(x => new RecentMediaViewModel
                     {
-                        Concert = new ConcertViewModel
+                        File = new FileViewModel
                         {
                             Id = x.Id,
-                            Name = x.Name
+                            Url = x.Url
                         }
-                        //Media = x.Media.OrderBy(y => y.UploadDate).FirstOrDefault(y => new MediaViewModel
-                        //{
-                        //    Files = null,
-                        //    Comment = y.Comment
-                        //})
                     })
                 };
-            }
 
-            return View();
+                return View(recentMediaViewModel);
+            }
         }
 
         public ActionResult About()
