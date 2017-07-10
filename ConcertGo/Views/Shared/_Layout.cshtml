@@ -11,7 +11,7 @@
 <div class="uk-child-width-expand@s uk-text-left" uk-grid>
     <div class="uk-width-1-6@m uk-margin-small">
         <!-- MENU -->
-        <div class="uk-card uk-card-default uk-card-body">
+        <div class="uk-card uk-card-default uk-card-body" uk-sticky="show-on-up: true; animation: uk-animation-slide-top; bottom: #bottom">
             <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
                 <li class="uk-active">@Html.ActionLink("Home", "Index", "Home")</li>
                 <li class="uk-parent">
@@ -34,13 +34,17 @@
                 <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: plus"></span> Upload Footage</a></li>
                 <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: image"></span> Manage Footage</a></li>
                 <li class="uk-nav-divider"></li>
-                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: user"></span> Manage Account</a></li>
+                <li>@Html.Partial("_LoginPartial")</li>
             </ul>
         </div>
     </div>
     
     <!-- BODY -->
     <div>
+        <header class="uk-card uk-card-body uk-background-primary uk-light" style="margin-bottom: 40px;">
+            <h1 class="uk-h3">ConcertGo</h1>
+        </header>
+
         <div class="uk-width-auto@m">@RenderBody()</div>
     </div>
 </div>
