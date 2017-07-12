@@ -1,85 +1,68 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@*@using Microsoft.AspNet.Identity*@
 @if (Request.IsAuthenticated)
 {
+    <li><a href="#manage-modal" uk-toggle><span class="uk-margin-small-right" uk-icon="icon: user"></span> Manage Account</a></li>
+    <div id="manage-modal" uk-modal="center: true">
+        <div class="uk-modal-dialog">
+            <div class="uk-modal-body">
+                <button class="uk-button uk-button-primary" type="button" onclick="$('#logoutForm').submit()">Log off</button>
+            </div>
+        </div>
+    </div>
+
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
     {
         @Html.AntiForgeryToken()
-        <span class="uk-margin-small-right" uk-icon="icon: user"></span>
-        @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", null, new { title = "Manage" })
+        
+        @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", null, new { title = "Manage" })*@
         @*<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>*@
     }
 }
 else
 {
-        @Html.ActionLink("Register", "Register", "Account", null, new { id = "registerLink" })
-        @*@Html.ActionLink("Log in", "Login", "Account", null, new { id = "loginLink" })*@
-    <a href="#login-modal" uk-toggle>Login</a>
-    <div id="login-modal" uk-modal="center: true">
+    <li><a href="#register-modal" uk-toggle>Register</a></li>
+    <div id="register-modal" uk-modal="center: true">
         <div class="uk-modal-dialog">
             <div class="uk-modal-body">
-                <h2>Login</h2>
-                @*@using ConcertGo.Models
-                @model LoginViewModel
-                @{
-                    ViewBag.Title = "Log in";
-                }
-
-                <h2>@ViewBag.Title.</h2>
-                @using (Html.BeginForm("Login", "Account", new {ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <h4>Use a local account to log in.</h4>
-                    <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <div class="checkbox">
-                                @Html.CheckBoxFor(m => m.RememberMe)
-                                @Html.LabelFor(m => m.RememberMe)
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Log in" class="btn btn-default" />
-                        </div>
-                    </div>
-                    <p>
-                        @Html.ActionLink("Register as a new user", "Register", "Account")
-                    </p>*@
-                @* Enable this once you have account confirmation enabled for password reset functionality
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>
-                    <div class="col-md-4">
-                        <section id="socialLoginForm">
-                            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-                        </section>
-                    </div>*@
-
-                @section Scripts {
-                    @Scripts.Render("~/bundles/jqueryval")
-                }
+                @Html.Partial("_RegisterPanelPartial", new ConcertGo.Models.RegisterViewModel())
             </div>
 
             <div class="uk-modal-footer uk-text-right">
                 <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                <button class="uk-button uk-button-primary" type="button">Login</button>
+                <button class="uk-button uk-button-primary" type="button" onclick="$('#userRegisterPanel').submit()">Register</button>
             </div>
         </div>
     </div>
+
+    <li><a href="#login-modal" uk-toggle>Login</a></li>
+    <div id="login-modal" uk-modal="center: true">
+        <div class="uk-modal-dialog">
+            <div class="uk-modal-body">
+                @Html.Partial("_LoginPanelPartial", new ConcertGo.Models.LoginViewModel())
+            </div>
+
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <button class="uk-button uk-button-primary" type="button" onclick="$('#userLoginPanel').submit()">Login</button>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/forms")
+    }
 }
+
+<script>
+    window.onload = function () {
+        function runHash(hash) {
+            if (hash.indexOf("modal") > -1) UIkit.modal(hash).show();
+        }
+
+        try {
+            runHash(window.location.hash);
+        } catch (e) {
+            // Fail silently, I don't care.
+        }
+    }
+</script>

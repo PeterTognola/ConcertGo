@@ -1,0 +1,37 @@
+﻿@model ConcertGo.Models.LoginViewModel
+
+<h2>Login</h2>
+
+@using (Html.BeginForm("Login", "Account", new {ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "uk-fieldset", role = "form", id="userLoginPanel"}))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new {@class = "uk-text-danger" })
+
+    <div class="uk-margin">
+        @Html.LabelFor(m => m.Email, new { @class = "uk-form-label" })
+        @Html.TextBoxFor(m => m.Email, new {@class = "uk-input"})
+        @Html.ValidationMessageFor(m => m.Email, "", new {@class = "uk-text-danger"})
+    </div>
+
+    <div class="uk-margin">
+        @Html.LabelFor(m => m.Password, new { @class = "uk-form-label" })
+        @Html.PasswordFor(m => m.Password, new {@class = "uk-input"})
+        @Html.ValidationMessageFor(m => m.Password, "", new {@class = "uk-text-danger"})
+    </div>
+
+    <div class="">
+        @Html.CheckBoxFor(m => m.RememberMe, new {@class = "uk-checkbox"})
+        @Html.LabelFor(m => m.RememberMe, new {@class = "uk-form-label"})
+    </div>
+}
+
+@* Enable this once you have account confirmation enabled for password reset functionality
+<p>
+    @Html.ActionLink("Forgot your password?", "ForgotPassword")
+</p>
+<div class="col-md-4">
+    <section id="socialLoginForm">
+        @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+    </section>
+</div>*@
