@@ -14,5 +14,7 @@ namespace ConcertGo.ViewModels
     public class RecentMediaViewModel
     {
         public FileViewModel File { get; set; }
+
+        public string Comment { get; set; }
     }
 }

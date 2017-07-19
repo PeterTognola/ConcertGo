@@ -17,17 +17,18 @@ namespace ConcertGo.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-                var recentMedia = context.Files.OrderBy(x => x.UploadDateTime).Take(30).ToList(); // todo paging.
+                var recentMedia = context.Media.Include("Files").OrderByDescending(x => x.UploadDateTime).Take(30).Where(x => x.Files.Count > 0).ToList(); // todo paging.
 
                 var recentMediaViewModel = new HomeViewModel
                 {
                     RecentMedia = recentMedia.Select(x => new RecentMediaViewModel
                     {
-                        File = new FileViewModel
+                        File = x.Files.Select(y => new FileViewModel
                         {
-                            Id = x.Id,
-                            Url = x.Url
-                        }
+                            Id = y.Id,
+                            Url = y.Url
+                        }).Single(),
+                        Comment = x.Comment
                     })
                 };
 

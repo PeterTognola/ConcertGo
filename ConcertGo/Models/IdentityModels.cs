@@ -38,6 +38,8 @@ namespace ConcertGo.Models
         public DbSet<Artist> Artists { get; set; }
 
         public DbSet<File> Files { get; set; }
+
+        public DbSet<Media> Media { get; set; }
     }
 
     public class Concert
@@ -49,6 +51,8 @@ namespace ConcertGo.Models
         public virtual ICollection<Artist> Artists { get; set; }
 
         public ICollection<Media> Media { get; set; }
+
+        public int Views { get; set; }
     }
 
     public class Artist
@@ -58,6 +62,8 @@ namespace ConcertGo.Models
         public string Name { get; set; }
 
         public ICollection<Concert> Concerts { get; set; }
+
+        public int Views { get; set; }
     }
 
     public class Media
@@ -69,7 +75,7 @@ namespace ConcertGo.Models
 
         public ICollection<File> Files { get; set; }
 
-        public DateTime UploadDate { get; set; } = DateTime.UtcNow;
+        public DateTime UploadDateTime { get; set; } = DateTime.UtcNow;
     }
 
     public class File
