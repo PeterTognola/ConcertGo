@@ -1,0 +1,28 @@
+﻿@model ConcertGo.Models.RegisterViewModel
+
+<h2>Register</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "uk-fieldset", role = "form", id = "userRegisterPanel" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "uk-text-danger" })
+
+    <div class="uk-margin">
+        @Html.LabelFor(m => m.Email, new { @class = "uk-form-label" })
+        @Html.TextBoxFor(m => m.Email, new { @class = "uk-input" })
+    </div>
+
+    <div class="uk-margin">
+        @Html.LabelFor(m => m.Password, new { @class = "uk-form-label" })
+        @Html.PasswordFor(m => m.Password, new { @class = "uk-input" })
+    </div>
+
+    <div class="uk-margin" style="margin-bottom: 0">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "uk-form-label" })
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "uk-input" })
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

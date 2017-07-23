@@ -53,7 +53,7 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/forms")
 }
 
 <script> // todo you don't belong here...
@@ -71,7 +71,7 @@
 
                         $.ajax({
                             type: "POST",
-                            url: "/Media/FileHandler",
+                            url: "@Url.Action("FileHandler")",
                             contentType: false,
                             processData: false,
                             data: data,

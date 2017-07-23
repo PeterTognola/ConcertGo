@@ -103,7 +103,7 @@ namespace ConcertGo.Controllers
 
                     var fileName = fileId + "." + fileContent.FileName.Split('.')[fileContent.FileName.Split('.').Length - 1];
 
-                    var path = Path.Combine(Server.MapPath("~/App_Data/Concert_Content/"), fileName);
+                    var path = Path.Combine(Server.MapPath("~/Content/Uploaded_Content/"), fileName);
 
                     using (var fileStream = System.IO.File.Create(path))
                     {
@@ -118,7 +118,7 @@ namespace ConcertGo.Controllers
                             Type = FileType.Photo, // todo
                             UploadDateTime = DateTime.UtcNow,
                             Location = path,
-                            Url = $"/App_Data/Concert_Content/{fileName}"
+                            Url = $"{Url.Content("~/")}Content/Uploaded_Content/{fileName}"
                         });
 
                         await context.SaveChangesAsync();

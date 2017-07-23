@@ -17,7 +17,7 @@
     <AssemblyName>ConcertGo</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -116,6 +116,7 @@
       <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -230,6 +231,14 @@
     <Compile Include="Migrations\201706292027517_UrlFileMigration.Designer.cs">
       <DependentUpon>201706292027517_UrlFileMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707082027236_MediaUploadDateMigration.cs" />
+    <Compile Include="Migrations\201707082027236_MediaUploadDateMigration.Designer.cs">
+      <DependentUpon>201707082027236_MediaUploadDateMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707171757358_ViewCountMigration.cs" />
+    <Compile Include="Migrations\201707171757358_ViewCountMigration.Designer.cs">
+      <DependentUpon>201707171757358_ViewCountMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -238,46 +247,28 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ArtistViewModels.cs" />
     <Compile Include="ViewModels\ConcertViewModels.cs" />
+    <Compile Include="ViewModels\HomeViewModels.cs" />
     <Compile Include="ViewModels\MediaViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-grid.css" />
-    <Content Include="Content\bootstrap-grid.min.css" />
-    <Content Include="Content\bootstrap-reboot.css" />
-    <Content Include="Content\bootstrap-reboot.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\uikit.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\core.css" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\bootstrap-reboot.css.map" />
-    <Content Include="Content\bootstrap-grid.min.css.map" />
-    <Content Include="Content\bootstrap-grid.css.map" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <None Include="Scripts\jquery-3.1.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-3.1.1.js" />
+    <Content Include="Scripts\geohash.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
-    <Content Include="Scripts\jquery-3.1.1.slim.js" />
-    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\uikit-icons.min.js" />
+    <Content Include="Scripts\uikit.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -328,11 +319,13 @@
     <Content Include="Views\Media\Details.cshtml" />
     <Content Include="Views\Media\Edit.cshtml" />
     <Content Include="Views\Media\Index.cshtml" />
-    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Shared\_LoginPanelPartial.cshtml" />
+    <Content Include="Views\Shared\_RegisterPanelPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\Concert_Content\" />
+    <Folder Include="App_Data\" />
+    <Folder Include="Content\Uploaded_Content\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -357,6 +350,12 @@
     <EmbeddedResource Include="Migrations\201706292027517_UrlFileMigration.resx">
       <DependentUpon>201706292027517_UrlFileMigration.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707082027236_MediaUploadDateMigration.resx">
+      <DependentUpon>201707082027236_MediaUploadDateMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707171757358_ViewCountMigration.resx">
+      <DependentUpon>201707171757358_ViewCountMigration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -376,7 +375,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>10365</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:10365/</IISUrl>
+          <IISUrl>http://localhost/ConcertGo</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

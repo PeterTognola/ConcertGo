@@ -4,42 +4,52 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-
+    @Styles.Render("~/bundles/css")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("ConcertGo", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Concerts", "Index", "Concert")</li>
-                </ul>
+
+<div class="uk-child-width-expand@s uk-text-left" uk-grid>
+    <div class="uk-width-1-6@m uk-margin-small">
+        <!-- MENU -->
+        <div class="uk-card uk-card-default uk-card-body" uk-sticky="show-on-up: true; animation: uk-animation-slide-top; bottom: #bottom">
+            <ul class="uk-nav-default uk-nav-parent-icon" uk-nav>
+                <li class="uk-active">@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="uk-parent">
+                    <a href="#">Artists</a>
+                    <ul class="uk-nav-sub">
+                        <li><a href="#">Popular Artist 1</a></li>
+                        <li><a href="#">Popular Artist 2</a></li>
+                        <li class="uk-text-bold">@Html.ActionLink("View All Artists", "Index", "Artists")</li>
+                    </ul>
+                </li>
+                <li class="uk-parent">
+                    <a href="#">Concerts</a>
+                    <ul class="uk-nav-sub">
+                        <li><a href="#">Popular Concert 1</a></li>
+                        <li><a href="#">Popular Concert 2</a></li>
+                        <li class="uk-text-bold">@Html.ActionLink("View All Concerts", "Index", "Concert")</li>
+                    </ul>
+                </li>
+                <li class="uk-nav-header">Footage</li>
+                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: plus"></span> Upload Footage</a></li>
+                <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: image"></span> Manage Footage</a></li>
+                <li class="uk-nav-divider"></li>
                 @Html.Partial("_LoginPartial")
-            </div>
+            </ul>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    
+    <!-- BODY -->
+    <div>
+        <header class="uk-card uk-card-body uk-background-primary uk-light" style="margin-bottom: 40px;">
+            <h1 class="uk-h3">ConcertGo</h1>
+        </header>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+        <div class="uk-width-auto@m">@RenderBody()</div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/js")
+@RenderSection("scripts", false)
 </body>
 </html>

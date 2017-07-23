@@ -1,22 +1,73 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@*@using Microsoft.AspNet.Identity*@
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-    @Html.AntiForgeryToken()
+    <li><a href="#manage-modal" uk-toggle><span class="uk-margin-small-right" uk-icon="icon: user"></span> Manage Account</a></li>
+    <div id="manage-modal" uk-modal="center: true">
+        <div class="uk-modal-dialog">
+            <div class="uk-modal-body">
+                <div class="uk-border-circle uk-margin uk-align-center" style="width: 100px; height: 100px; background-color: #CCC;"></div>
+                
+                <button class="uk-button uk-button-primary uk-margin uk-align-center" type="button">Change Profile Picture</button>
+                <button class="uk-button uk-button-primary uk-margin uk-align-center" type="button">Change Password</button>
+                <button class="uk-button uk-button-primary uk-margin uk-align-center" type="button">Change Name</button>
+                <button class="uk-button uk-button-danger uk-margin uk-align-center" type="button" onclick="$('#logoutForm').submit()">Log off</button>
+            </div>
+        </div>
+    </div>
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
+        
+        @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", null, new { title = "Manage" })*@
+        @*<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>*@
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+    <li><a href="#register-modal" uk-toggle>Register</a></li>
+    <div id="register-modal" uk-modal="center: true">
+        <div class="uk-modal-dialog">
+            <div class="uk-modal-body">
+                @Html.Partial("_RegisterPanelPartial", new ConcertGo.Models.RegisterViewModel())
+            </div>
+
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <button class="uk-button uk-button-primary" type="button" onclick="$('#userRegisterPanel').submit()">Register</button>
+            </div>
+        </div>
+    </div>
+
+    <li><a href="#login-modal" uk-toggle>Login</a></li>
+    <div id="login-modal" uk-modal="center: true">
+        <div class="uk-modal-dialog">
+            <div class="uk-modal-body">
+                @Html.Partial("_LoginPanelPartial", new ConcertGo.Models.LoginViewModel())
+            </div>
+
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <button class="uk-button uk-button-primary" type="button" onclick="$('#userLoginPanel').submit()">Login</button>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/forms")
+    }
 }
+
+<script>
+    window.onload = function () {
+        function runHash(hash) {
+            if (hash.indexOf("modal") > -1) UIkit.modal(hash).show();
+        }
+
+        try {
+            runHash(window.location.hash);
+        } catch (e) {
+            // Fail silently, I don't care.
+        }
+    }
+</script>
